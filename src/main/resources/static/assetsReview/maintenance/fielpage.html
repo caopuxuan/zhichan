@@ -1,0 +1,146 @@
+﻿<!Doctype html>
+<html lang="en">
+<head>
+    <title>选择文件上传</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="../../scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <link href="../../scripts/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/report.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../../scripts/miniui/miniui.js"></script>
+    <script type="text/javascript" src="../../js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="../../scripts/thirdparty/swfupload/swfupload.js"></script>
+    
+
+    <style type="text/css">
+    html, body
+    {
+        font-size:12px;
+        padding:0;
+        margin:0;
+        border:0;
+        height:100%;
+        overflow:hidden;
+    }
+        .Enclosure{
+               width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" method="post">
+        <input name="id" class="mini-hidden" />
+        <div style="padding-left:11px;padding-bottom:5px;">
+            <table style="table-layout:fixed;">
+                <tr>
+                    <td style="text-align: center" class="Enclosure">附件名称：</td>
+                    <td>
+                        <input name="name" class="mini-textbox" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center" class="Enclosure" >附件概述：</td>
+                    <td >
+                        <input name="described" class="mini-textbox" valueField="id" textField="name" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center">
+                        <input type="button" value="上传" onclick="ajaxFileUpload()"/>
+                    </td>
+                    <td style="text-align: center">
+                        <input class="mini-htmlfile" name="fdata"  id="file1" style="width:150px;"/>
+                    </td>
+                 </tr>
+            </table>
+        </div>
+        <div style="text-align:center;padding:10px;">               
+            <a class="mini-button" onclick="onOk" style="width:60px;margin-right:20px;">确定</a>
+            <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>       
+        </div>        
+    </form>
+    <script type="text/javascript">
+        mini.parse();
+        //var editId=window.location.href.split("=")[1];
+        //var smork=editId.indexOf("&");
+        //var edfirm=editId.substring(0,smork);
+        var form = new mini.Form("form1");
+        var content="";
+        function ajaxFileUpload() {
+            var inputFile = $("#file1 > input:file")[0];
+            
+            console.log(mini.encode(inputFile));
+            
+            $.ajaxFileUpload({
+                url: '../../upload',
+                data:{number:"1233"},
+                fileElementId: inputFile,
+                type:"post",
+                dataType:"json",
+                success: function (data)
+                {
+                    content=data;
+                    alert("上传成功!:"+data);
+                },
+                error: function (data, status, e)
+                {
+                    alert("上传失败");
+                }
+            });
+        }
+        
+        
+        
+        
+        
+        
+        function SaveData() {
+            var element = form.getData();
+            var str=content.substring(36);
+            delete element.fdata;
+            element.attachmentAddr=content;
+            element.name=str;
+            //element.examineVerifyId=edfirm;
+            form.validate();
+            if (form.isValid() == false) return;
+            var data=JSON.stringify(element);
+            if(element){
+                element = mini.clone(element);
+                console.log(data)
+                top["win"].updateGrid(element);
+                CloseWindow("save");
+            }
+        }
+        
+        
+        //标准方法接口定义
+        function SetData(data) {
+            console.log(data);
+            var o = mini.decode(data);
+            form.setData(o);
+        }
+        function GetData() {
+            var o = form.getData();
+            return o;
+        }
+        function CloseWindow(action) {            
+            if (action == "close" && form.isChanged()) {
+                if (confirm("数据被修改了，是否先保存？")) {
+                    return false;
+                }
+            }
+            if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+            else window.close();            
+        }
+        function onOk(e) {
+            SaveData();
+            CloseWindow("ok");
+        }
+        function onCancel(e) {
+            CloseWindow("cancel");
+        }
+
+    </script>
+</body>
+</html>

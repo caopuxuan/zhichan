@@ -1,0 +1,589 @@
+<!DOCTYPE HTML>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        动植物
+    </title>
+    <link href="../../scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <link href="../../scripts/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/report.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../../scripts/miniui/miniui.js"></script>
+    <script type="text/javascript" src="../../js/assets.js"></script>
+</head>
+<body>
+<div class="yusuan-up">
+    <div style="width:96%; margin:10px auto;">
+        <div class="mini-toolbar" style="border:0;padding:0px;background: none">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:45%;">
+                        <a class="mini-button btn1" onclick="saveForm()" plain="true">保存</a>
+                        <a class="mini-button btn2" onclick="window.close();" plain="true">关闭</a>
+                        <input id="allSave" name="audit_state" class="mini-checkbox" value="1" text="连续保存"/>
+                    </td>
+                    <td style="white-space:nowrap;font-size: 15px">
+                        <h3>动植物资产卡片</h3>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="tab-main" style="width: 96%; margin:0 auto;">
+        <div class="reim-main clearfix">
+            <div class="report-tabs">
+                <div class="tb-rp">
+                    <div class="line1 clearfix cardnums">
+                        <label>卡片编号:</label>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="mini-tabs" activeIndex="0"  style="width:100%;height:480px;">
+                    <div title="财务信息">
+                        <div class="first-tabcont" id="firstForm">
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>类别名称</label>
+                                    <input id="combo1" name="className" class="mini-buttonedit" style="width:100%" required="true" textField="valued" valueField="types"  emptyText="请选择..."  onbuttonclick="onButtonEdit"                            allowInput="false" popupHeight="100px"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>资产代码</label>
+                                    <input name="assetCode" class="mini-textbox" style="width:100%"  readonly/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>资产名称</label>
+                                    <input name="assetName" class="mini-textbox" style="width:100%"  required="true" />
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>增加方式</label>
+                                    <input id="combo2" name="additionMethod" class="mini-combobox" style="width:100%" textField="valued" emptyText="请选择..." valueField="types" required="true" allowInput="true" onbuttonclick="combobox('zjfs','combo2')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>计量单位</label>
+                                    <input id="combo3" name="units" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox2('jldw','combo3')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>数量</label>
+                                    <input name="numb" class="mini-textbox" style="width:100%" required="true" value="1" vtype="range:1,1"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>单价</label>
+                                    <input name="unitPrice" class="mini-textbox" style="width:100%;"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>原值</label>
+                                    <input name="originalValue" class="mini-textbox" style="width:100%"  required="true" onvalidation="greaterzero" />
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>折旧状态</label>
+                                    <input id="combo4" name="depreciationState" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('zjzt','combo4')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>净值</label>
+                                    <input name="equity" class="mini-textbox" style="width:100%" vtype="float" value="0"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>价值类型</label>
+                                    <input id="combo5" name="valueType" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('jzlx','combo5')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>经费来源</label>
+                                    <input id="combo6" name="fundingSources" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('jfly','combo6')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>财政性资金</label>
+                                    <input name="financialFunds" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>非财政性资金</label>
+                                    <input name="unFinancialFunds" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>采购组织形式</label>
+                                    <input id="combo7" name="procurementOrganization" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('cgzzxs','combo7')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div title="购置信息">
+                        <div class="first-tabcont" id="secondForm">
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>入账形式</label>
+                                    <input id="combo8" name="formEntry" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('rzxs','combo8')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>会计凭证号</label>
+                                    <input name="accountingVoucherNumber" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>财务入账日期</label>
+                                    <input name="postingDate" class="mini-datepicker" style="width:100%"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>出生/栽种年份</label>
+                                    <input name="addYears" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>产地</label>
+                                    <input name="habitats" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>纲属科</label>
+                                    <input name="genera" class="mini-textbox" style="width:100%"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div title="使用信息">
+                        <div class="first-tabcont" id="thirdForm">
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>使用部门</label>
+                                    <input id="combo9" name="useDepartment" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('sybm','combo9')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>使用人名称</label>
+                                    <input name="userName" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>存放地点</label>
+                                    <input name="storagePlace" class="mini-textbox" style="width:100%"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>保管人</label>
+                                    <input name="custodian" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>购置时间</label>
+                                    <input name="buyDate" class="mini-datepicker" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>开始使用日期</label>
+                                    <input name="startTime" class="mini-datepicker" style="width:100%" required="true"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>使用方向</label>
+                                    <input id="combo10" name="useDirection" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('syfx','combo10')" popupHeight="100px" required="true" onvalidation="onComboValidation"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>使用状态</label>
+                                    <input id="combo11" name="usingState" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('syzt','combo11')" popupHeight="100px" required="true" onvalidation="onComboValidation"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>预计使用月份</label>
+                                    <input name="expectedMonth" class="mini-textbox" style="width:100%"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>已使用月份</label>
+                                    <input name="usedMonth" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineleft boxline">
+                                    <label>旧资产原已使用月份</label>
+                                    <input name="oldUseMonth" class="mini-textbox" style="width:100%"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div title="其他信息">
+                        <div class="first-tabcont" id="fourthForm">
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>自定义编码</label>
+                                    <input name="customCoding" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>资产原分类名称</label>
+                                    <input name="originalNameAssets" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>资产调拨状态</label>
+                                    <input id="combo12" name="stateAssetAllocation" class="mini-combobox" style="width:100%" textField="valued" valueField="types" emptyText="请选择..." allowInput="true" onbuttonclick="combobox('zcdbzt','combo12')" popupHeight="100px" onvalidation="onComboValidation"/>
+                                </div>
+                            </div>
+                            <div class="line1 clearfix ">
+                                <div class="lineleft boxline">
+                                    <label>标签说明</label>
+                                    <input name="labelDescription" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>资产管理单位名称</label>
+                                    <input name="unitName" class="mini-textbox" style="width:100%"/>
+                                </div>
+                                <div class="lineright boxline">
+                                    <label>备注</label>
+                                    <input name="remark" class="mini-textbox" style="width:100%"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div title="辅助信息">
+                        <div style="margin: 10px auto" id="fivthForm">
+                            <div style="width:96%; margin:10px auto;">
+                                <div class="mini-toolbar" style="border:0;padding:0px;background: none">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="width:45%;">
+                                                <a class="mini-button btn1" onclick="addRow()" plain="true">添加</a>
+                                                <a class="mini-button btn2" onclick="removeRow()" plain="true">删除</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="datagrid1" class="mini-datagrid" style="width:96%;height:200px;margin: 0 auto;" allowResize="false"
+                                   multiSelect="false"
+                                 showPager="false" allowCellEdit="true" allowCellSelect="true"
+                                    >
+                                <div property="columns">
+                                    <div header="添加资产附属设备" align="center" headerAlign="center">
+                                        <div property="columns">
+                                            <div field="name" name="name" width="100" align="center" headerAlign="center">附属设备名称
+                                        <input property="editor" class="mini-textbox" style="width:100%;" minWidth="200" />    
+                                    	</div>
+                                            <div field="numb" name="numb" width="100" align="center" headerAlign="center">附属设备数量
+                                            <input property="editor" class="mini-textbox" vtype="float" style="width:100%;" minWidth="200" />
+                                            </div>
+                                            <div field="remark" name="remark" width="100" align="center" headerAlign="center">备注
+                                        <input property="editor" class="mini-textbox" style="width:100%;" minWidth="200" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin: 20px auto">
+                            <div style="width:96%; margin:20px auto;">
+                                <div class="mini-toolbar" style="border:0;padding:0px;background: none">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="width:45%;">
+                                                <a class="mini-button btn1" plain="true" onclick="addRow2()">添加</a>
+                                                <a class="mini-button btn2" plain="true" onclick="removeRow2()">删除</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="datagrid2" class="mini-datagrid" style="width:96%;height:200px;margin: 0 auto" allowResize="false"
+                                   multiSelect="false"
+                                 showPager="false" allowCellEdit="true" allowCellSelect="true" 
+                                    >
+                                <div property="columns">
+                                    <div header="资产附属文件" align="center" headerAlign="center">
+                                        <div property="columns">
+                                            <div field="name" name="name" width="100" align="center" headerAlign="center">附件名称</div>
+                                            <div field="described" name="described" width="100" align="center" headerAlign="center">附件概述
+                                            <input property="editor" class="mini-textbox" style="width:100%;" minWidth="200" />
+                                            </div>
+                                            <div field="upload" name="upload" width="100" align="center" headerAlign="center" renderer="onActionRenderer">附件上传</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+	mini.parse();
+		 
+		 //下拉框ajax请求
+	    function combobox(value,id){
+			var combox = mini.get(id);
+			$.ajax({
+				    type:'post',
+				    url: "../../findByCode",
+		            data: {"code" : value},
+		            type:'post',
+		            success: function (jsonData) {
+		            	combox.load(jsonData);
+		            },
+		            error: function() {
+		            	alert("提交失败");
+				     }
+		        })
+		};
+		//计量单位
+		function combobox2(value,id){
+			var combox = mini.get(id);
+			$.ajax({
+				    type:'post',
+				    url: "../../findByCodeUnit",
+		            data: {"code" : value},
+		            type:'post',
+		            success: function (jsonData) {
+		            	combox.load(jsonData);
+		            },
+		            error: function() {
+		            	alert("提交失败");
+				     }
+		        })
+		};
+		 
+		 
+		 //编辑跳转新增页面
+        	var editId=window.location.href.split("=")[1];
+        	if(editId!=null){
+			$.ajax({
+				url: "../../findAssetById",
+		            data: { "cardNumber" : editId}, 
+		            type:'post',
+		            success: function (text) {
+		            	//财务信息
+		            	var form = new mini.Form("#firstForm");
+		            	var str=text.asset;	
+						form.setData(str,false);
+						//购置信息
+						var form2 = new mini.Form("#secondForm");
+		            	var str2=text.asset ;
+		            	//时间日期转化
+		            	str2.postingDate=ChangeDateFormat(str2.postingDate);
+		            	str2.addYears=ChangeDateFormat(str2.addYears);
+		            	//赋值
+						form2.setData(str2,false);
+						//使用信息
+		            	var form3 = new mini.Form("#thirdForm");
+		            	var str3=text.asset;
+		            	
+		            	str3.startTime=ChangeDateFormat(str3.startTime);
+		            	str3.buyDate=ChangeDateFormat(str3.buyDate);
+		            	//str3.ownershipDate=ChangeDateFormat(str3.ownershipDate);
+		            	
+						form3.setData(str3,false);
+						//其他信息
+						var form4 = new mini.Form("#fourthForm");
+		            	var str4=text.asset;		            	
+						form4.setData(str4,false);
+						
+						//辅助信息-表1
+						var form5 =mini.get("datagrid1");
+		            	var str5=text.appurtenance;	
+						form5.setData(str5);
+						
+						//辅助信息-表2
+						var form6 =mini.get("datagrid2");
+		            	var str6=text.subsidiaryFile;		            	
+						form6.setData(str6);
+						
+						//卡片编号
+						var cpbh = text.asset.cardNumber; 
+						$('.cardnums span').html(cpbh); 
+						
+		            },
+		            error: function() {
+		            	alert("提交失败");
+				     }
+				     
+		        })
+  
+			}
+		
+		//辅助信息表1
+		
+		//附件上传
+		var gridfiel =mini.get("datagrid2");
+	    function onActionRenderer(e) {
+	        var gridfiel = e.sender;
+	        var record = e.record;
+	        var uid = record._uid;
+	        var rowIndex = e.rowIndex;
+			var s = '<div class="report-file"><span class="fielspan">选择文件</span><input class="file-prew" type="file" onchange="updateRow(' + uid + ',this)"></div>';	     
+	        return s;	       
+	    }
+	    //赋值 附件名称
+	    function updateRow(uid,obj) {
+            var row = gridfiel.getRowByUID(uid);
+            setTimeout(function(){
+               gridfiel.updateRow(row, {name: obj.value });
+               },300)
+        }
+	    
+	    
+		//增加行
+		var grid = mini.get("datagrid1");
+		 grid.on("cellbeginedit",function(e){
+			   if(e.record._state!="added") e.cancel=true;
+			})
+		function addRow() {          
+            var newRow = {};
+            grid.addRow(newRow, 0);
+        }		
+		//删除行
+		function removeRow() {
+            var rows = grid.getSelecteds();
+            if (rows.length > 0) {
+            
+                grid.removeRows(rows, true);                
+            }
+        }
+		 
+		 //辅助信息表2
+		 //增加行2
+		var grid2 = mini.get("datagrid2");
+		 grid2.on("cellbeginedit",function(e){
+			   if(e.record._state!="added") e.cancel=true;
+			})
+		function addRow2() {          
+            var newRow = {};
+            grid2.addRow(newRow, 0);
+        }	
+		//删除行2
+		function removeRow2() {
+            var rows = grid2.getSelecteds();
+            if (rows.length > 0) {
+                grid2.removeRows(rows, true);                
+            }
+        }
+		 
+		function saveForm() {
+			
+			//验证
+            var fm1 = new mini.Form("#firstForm"); //获取表单
+            var fm2 = new mini.Form("#secondForm");
+            var fm3 = new mini.Form("#thirdForm");
+            var fm4 = new mini.Form("#fourthForm");
+            
+            fm1.validate();
+            fm2.validate();
+            fm3.validate();
+            fm4.validate();
+            if (fm1.isValid() == false && fm2.isValid() == false && fm3.isValid() == false && fm4.isValid() == false) return;
+            
+			
+            //保存表单数据
+            var form = new mini.Form("#firstForm").getData(); //获取表单多个控件的数据
+            var form2 = new mini.Form("#secondForm").getData();
+            var form3 = new mini.Form("#thirdForm").getData();
+            var form4 = new mini.Form("#fourthForm").getData();
+            
+            var editId=window.location.href.split("=")[1];
+        	if(editId!=null){
+        		form.cardNumber=editId;
+        	}
+            
+            
+            var obj = Object.assign(form, form2,form3,form4);//拼接对象
+            
+			//保存表格数据
+            var form5 = mini.get("datagrid1").getData();
+            for(var n in form5 ){
+            	  delete form5[n].id;
+            	  delete form5[n]._id;
+            	  delete form5[n]._uid;
+            	  delete form5[n]._state;
+            	  form5[n].cardNumber=editId;
+            	}
+            
+            var form6 = mini.get("datagrid2").getData();
+            for(var n in form6 ){
+          	  delete form6[n].id;
+          	  delete form6[n]._id;
+          	  delete form6[n]._uid;
+          	  delete form6[n]._state;
+          	  form6[n].cardNumber=editId;
+          	}
+           var sumdate= {asset:obj,appurtenance:form5,subsidiaryFile:form6,houseInstitutions:[]};
+           var jsondate = mini.encode(sumdate);
+           
+           var url="";
+			if (editId != null) {
+				//有id就是编辑
+				url="../../updateAsset";
+			}else{
+				//没有id就是新增
+				url="../../addAsset";
+			}
+            
+            $.ajax({
+                url: url,
+                type: "post",
+               contentType: 'application/json;charset=UTF-8',
+               dataType : "json",
+               data:jsondate,
+                success: function (text) {
+                	if(text==1){
+                		alert("提交成功");
+                		//判断是否为“连续保存‘
+                		if(mini.get('allSave').value=="true"){
+							location.reload();
+                		}else{
+                			window.close();
+                		}
+                	}else{
+                		alert("异常");
+                	}
+                },
+            error:function(){
+				alert("提交失败");
+			}
+
+            });
+            
+        }
+		
+		
+		
+		/*类别名称*/
+		function onButtonEdit(e) {
+            var btnEdit = this;
+            mini.open({
+                url: "SelectTreeWindow.html",
+                showMaxButton: false,
+                title: "选择类别名称",
+                width: 350,
+                height: 350,
+                ondestroy: function (action) {                    
+                    if (action == "ok") {
+                        var iframe = this.getIFrameEl();
+                        var data = iframe.contentWindow.GetData();
+                        data = mini.clone(data);
+                        if (data) {
+                            btnEdit.setValue(data.id);
+                            btnEdit.setText(data.text);
+                        }
+                    }
+                }
+            });            
+             
+        }    
+
+		//下拉菜单限制输入值--验证
+		function onComboValidation(e) {
+            var comb = e.sender;
+            var items = comb.findItems(e.value);
+            if (!items || items.length == 0) {
+                e.isValid = false;
+                e.errorText = "输入值不在下拉数据中";
+            }
+        }
+
+
+	
+</script>
+
+
+</body>
+</html>

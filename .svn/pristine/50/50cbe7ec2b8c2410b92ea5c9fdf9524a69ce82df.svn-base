@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+  <Appenders>
+    <JDBC name="databaseAppender" tableName="asset">
+       <!--记得修改下面class地址-->
+      <ConnectionFactory class="com.bpm.asset.config.ConnectionFactory" method="getDatabaseConnection" />
+      <Column name="EVENT_DATE" isEventTimestamp="true" />
+      <Column name="LEVEL" pattern="%level" />
+      <Column name="CLASS" pattern="%C" />
+      <Column name="log_file" pattern="%file" /> 
+      <Column name="log_line" pattern="%line" />  
+      <Column name="log_thread" pattern="%thread" />   
+      <Column name="FUNCTION" pattern="%M" />  
+      <Column name="LOGGER" pattern="%logger" />
+      <Column name="MESSAGE" pattern="%message" />
+      <Column name="THROWABLE" pattern="%ex{full}" />
+    </JDBC>
+  </Appenders>
+  <Loggers>
+    <Root level="warn">
+      <AppenderRef ref="databaseAppender"/>
+    </Root>
+  </Loggers>
+</Configuration>  

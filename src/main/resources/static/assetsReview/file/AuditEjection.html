@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../../css/index.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="swfupload.js"></script>
+</head>
+<body>
+    <div class="shenhe">
+        <div class="table-sh">
+            <table id="approveResultgrid" width="100%" border="0">
+                <tr class="thd">
+                    <th width="14%" scope="col"><span class="first"></span>审核环节</th>
+                    <th width="14%" scope="col"><span></span>审核人</th>
+                    <th width="32%" scope="col"><span></span>要素审批结果</th>
+                    <th width="16%" scope="col"><span></span>特殊意见</th>
+                    <th width="8%" scope="col"><span></span>结论</th>
+                    <th width="16%" scope="col"><span></span>审批时间</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+       // mini.parse();
+        //标准方法接口定义
+       var tempDOM;
+        function SetData(objectVO) {
+            console.log(objectVO);
+            for (var i = 0; i < objectVO.length; i++) {
+                var row = objectVO[i];
+                console.log(row);
+                var rowOfBefore = objectVO[i - 1];
+                var auditLink = row.auditLink == null ? "" : row.auditLink;
+                var creator = row.creator == null ? "" : row.creator;
+                var logs = row.logs == null ? "" : row.logs;
+                var statename = row.statename == null ? "" : row.statename;
+                var createTime = row.createTime == null ? "" : row.createTime;
+                var showContent = "<tr><td>" + auditLink + "</td><td>" + creator + "</td>" +
+                        "<td><ul class=\"tabli\">";
+
+                if (row.listad != null && row.listad.length > 0) {
+                    for (var j = 0; j < row.listad.length; j++) {
+                        showContent = showContent + "<li>" + row.listad[j][1];
+                        if ("1" == row.listad[j][0]) {
+                            showContent = showContent + "<img src='../../img/havdone.png' alt='' /></li>";
+                        }
+                    }
+                }
+                showContent = showContent + "</ul></td><td>" + logs + "</td><td>" + statename + "</td>" +
+                        "<td><p>" + createTime + "</p>";
+
+                if (rowOfBefore != null) {
+                    showContent = showContent + "<span class=\"red\">(";
+                    var date = new Date(createTime);
+                    var dateOfBefore = new Date(rowOfBefore.createTime);
+                    var duration = parseInt(date.getTime() - dateOfBefore.getTime());
+                    var oneDay = 1000 * 60 * 60 * 24;
+                    var day = parseInt(duration / oneDay);
+                    var oneHour = 1000 * 60 * 60;
+                    var hour = parseInt(duration % oneDay / oneHour);
+                    var oneMinute = 1000 * 60;
+                    var minute = Math.ceil(duration % oneDay % oneHour / oneMinute);
+                    if (day > 0) {
+                        showContent = showContent + day + "天";
+                    }
+                    if (hour > 0) {
+                        showContent = showContent + hour + "小时";
+                    }
+                    if (minute > 0) {
+                        showContent = showContent + minute + "分钟";
+                    }
+                    showContent = showContent + ")</span></td></tr>";
+                }
+                $("#approveResultgrid").append(showContent);
+                //tempDOM=showContent;
+            }
+            //$("#approveResultgrid").append(tempDOM);
+        }
+    </script>
+</body>
+</html>

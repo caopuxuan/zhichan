@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>资产处置审批</title>
+    <link href="../scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <link href="../scripts/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../css/reset.css" rel="stylesheet" type="text/css" />
+    <!--<link href="scripts/miniui/themes/blue/skin.css" rel="stylesheet" type="text/css" />-->
+    <link href="../css/report.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../scripts/miniui/miniui.js"></script>
+    <script type="text/javascript" src="../js/assets.js"></script>
+</head>
+<body>
+<div class="yusuan-up" style="margin-top: 10px">
+    <div style="width:98%; margin:0 auto 10px;">
+        <div class="mini-toolbar" style="border:0;padding:0px;background: none">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:45%;">
+                        <a class="mini-button btn1" onclick="window.history.back();" plain="true">返回</a>
+                        <a class="mini-button btn2" onclick="adopt('3')" plain="true">通过</a>
+                        <span class="separator"></span>
+                        <a class="mini-button btn3" onclick="adopt('6')" plain="true">退回</a>
+                    </td>
+                    <td style="white-space:nowrap;font-size: 15px">
+                        <h3>资产卡片审核</h3>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="item-footer clearfix" style="width: 98%;margin: 10px auto">
+        <div id="form9" class="mini-datagrid" style="width:21%;height:auto;float: left"
+             url="../findDealById" idField="id"
+             allowResize="false" pageSize="20"
+             allowCellEdit="true" allowCellSelect="true" multiSelect="true"
+             allowCellValid="true" oncellvalidation="onCellValidation"
+             showPager="false" showColumns="true"
+                >
+            <div property="columns">
+                <div type="checkcolumn" width="20"></div>
+                <div field="loginname1" width="120" headerAlign="center" allowSort="false">
+                	审核意见
+                </div>
+            </div>
+        </div>
+        <div class="right-tit" style="float: left;width: 47%;text-align: center;margin-top: 15px">
+            <div style="text-align: right">审核意见：<textarea id="content1" style="width:80%;" class="mini-textarea" emptyText="审核意见"></textarea></div>
+        </div>
+        <div class="examine-right" style="float: right;width: 30%;margin-top: 10px;">
+            审核人：<input style="width: 85%" value="单位领导" class="mini-textbox" borderStyle="border:0"/>
+            审核时间：<input id="shenhetime" value="" class="mini-textbox" borderStyle="border:0"/>
+        </div>
+    </div>
+    <div class="main-serice" style="width: 98%;height: 400px;margin: 30px auto;clear:both;overflow: auto;border: 1px solid #ccc;">
+        <div class="first-tabcont" id="firstForm">
+            <div class="line1 clearfix">
+                <div class="lineleft">
+                    <label>申请单号</label>
+                    <input name="dealNumber" class="mini-textbox" style="width:100%" />
+                </div>
+                <div class="lineright">
+                    <label>处置方式</label>
+                    <input name="dealMode" class="mini-textbox" style="width:100%" />
+                </div>
+            </div>
+            <div class="line1 clearfix">
+                <div class="lineleft">
+                    <label>申请单位</label>
+                    <input name="applicationUnit" class="mini-textbox" style="width:100%" />
+                </div>
+                <div class="lineright">
+                    <label>资产原值</label>
+                    <input name="original" class="mini-textbox" style="width:100%" vtype="float" />
+                </div>
+            </div>
+            <div class="line1 clearfix">
+                <div class="lineleft">
+                    <label>资产净值</label>
+                    <input name="equity" class="mini-textbox" style="width:100%" />
+                </div>
+                <div class="lineleft">
+                    <label>申请人</label>
+                    <input name="applicant" class="mini-textbox" style="width:100%" />
+                </div>
+            </div>
+            <div class="line1 clearfix">
+                
+                <div class="lineright">
+                    <label>申请时间</label>
+                    <input name="applicationDate" class="mini-textbox" style="width:100%" />
+                </div>
+            </div>
+            <div class="line1 clearfix">
+                <div class="lineleft">
+                    <label>申请理由</label>
+                    <textarea name="applicationReasons" class="mini-textarea" emptyText="请输入备注"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="Essential-information" style="width: 100%;height: 50px;line-height: 50px;margin: 0 auto;border-bottom: 1px solid #ccc;">
+            处置资产
+        </div>
+        <div class="yusuan-up">
+            <div style="margin: 10px auto">
+                <div id="datagrid1" class="mini-datagrid" style="width:96%;height:280px;margin: 0 auto" allowResize="false"
+                     url=""  idField="id" multiSelect="false"
+                     showPager="false"
+                        >
+                    <div property="columns">
+                        <div field="cardNumber" name="cardNumber" width="100" align="center" headerAlign="center">卡片编号</div>
+                        <div field="className" name="className" width="100" align="center" headerAlign="center">资产分类</div>
+                        <div field="assetName" name="assetName" width="100" align="center" headerAlign="center">资产名称</div>
+                        <div field="originalValue" name="originalValue" width="100" align="center" headerAlign="center">资产原值</div>
+                        <div field="equity" name="equity" width="100" align="center" headerAlign="center">资产净值</div>
+                        <div field="buyDate" name="buyDate" width="100" align="center" headerAlign="center">购置时间</div>
+                        <div field="remark" name="remark" width="100" align="center" headerAlign="center">备注</div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin: 20px auto">
+                <div id="datagrid2" class="mini-datagrid" style="width:96%;height:280px;margin: 0 auto" allowResize="false"
+                     url=""  idField="id" multiSelect="false"
+                     showPager="false"
+                        >
+                    <div property="columns">
+                        <div field="name" name="name" width="100" align="center" headerAlign="center">附件名称</div>
+                        <div field="summary" name="summary" width="100" align="center" headerAlign="center">附件概述</div>
+                        <div field="age" width="100" align="center" headerAlign="center" renderer="onActionRenderer">附件下载</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    mini.parse();
+    var grid8=mini.get("form9");
+    var data8=[
+        {"loginname1":"必要审核条件一" },
+        {"loginname1":"必要审核条件二"},
+        {"loginname1":"必要审核条件三"}
+    ]
+    grid8.setData(data8);
+    
+    //审核时间
+    var d=new Date();
+	youWant=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); 
+	mini.get(shenhetime).setValue(youWant);
+    function showTime(){
+		var d=new Date();
+		youWant=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); 
+		mini.get(shenhetime).setValue(youWant);
+	}
+	setInterval("showTime()",1000);
+	
+	//审核跳转资产卡号审核页面
+	var editId=window.location.href.split("=")[1];
+	if(editId!=null){
+	$.ajax({
+		url: "../findDealById",
+            data: { "dealNumber" : editId}, 
+            type:'post',
+            success: function (text) {
+            	
+				//主信息-表1
+            	var form = new mini.Form("#firstForm");
+            	var str=text.deal;	
+				form.setData(str,false);
+
+				//附属信息-表1
+				var form5 =mini.get("datagrid1");
+            	var str5=text.asset;
+            	str5.buyDate=ChangeDateFormat(str5.buyDate);
+				form5.setData(str5);
+				
+				//附属信息-表2
+				var form6 =mini.get("datagrid2");
+            	var str6=text.annexes;		            	
+				form6.setData(str6);
+				
+				//审核意见
+				var shyj=text.asset.auditOpinion;
+				mini.get(content1).setValue(shyj);
+
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+	   			 alert(XMLHttpRequest.status);
+	   			 alert(XMLHttpRequest.readyState);
+	   			 alert(textStatus);
+		     },
+		      complete: function(XMLHttpRequest, textStatus) {
+		    	 this; // 调用本次AJAX请求时传递的options参数
+				     }
+		        })
+  
+			}
+
+
+	//通过
+	function adopt(state) { 
+		
+			if (mini.get("content1").getValue() == "") {
+				if (state == '6') {
+					alert('请在审核意见处填写退回理由！');
+					return;
+				} else {
+					mini.get("content1").setValue("通过");
+					}
+			}
+		
+			var grid8 = mini.get("form9");
+			var selecteds = grid8.getSelecteds().length;
+			var rows = grid8.getData().length;
+			//审核要素--全选
+			if (selecteds != rows&&state == '3') {
+				alert("请选中所有审核要素！");
+			} else {
+				
+        	if (confirm("确定提交？")) {
+                $.ajax({
+                	type:'post',
+                    url: "../updatebyDid",
+                    data: {
+                    	"dealNumber":"'"+editId+"'", 						"dealStatus":state,
+                    	"auditOpinion":mini.get("content1").getValue()
+                    },
+                    success: function (text) {
+                    	if(text==1){
+                    		alert("提交成功");
+                    	}else{
+                    		alert("异常");
+                    	}
+                    	
+                    	//返回上一个页面
+                    },
+                    error: function () {
+                    	alert("请求失败");
+                    }
+                });	
+        	}
+        }	
+    }		
+						
+</script>
+</body>
+</html>

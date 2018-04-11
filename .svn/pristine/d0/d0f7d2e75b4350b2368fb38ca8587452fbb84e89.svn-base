@@ -1,0 +1,53 @@
+package com.bpm.asset.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Lang;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import com.bpm.asset.entity.Deal;
+
+import core.mybatis.languageDriver.SimpleInsertLangDriver;
+import core.mybatis.languageDriver.SimpleSelectLangDriver;
+import core.mybatis.languageDriver.SimpleUpdateLangDriver;
+
+@Mapper
+public interface DealDao {
+
+	// 提交更改状态 参数列表： 卡片编号，审核提交状态，审核意见
+/*	@Update("UPDATE t_deal set deal_status=#{dealStatus},audit_opinion=#{auditOpinion}  WHERE deal_number=#{dealNumber}")
+	int updatebyDid(@Param("dealNumber") String dealNumber, @Param("dealStatus") String dealStatus,
+			@Param("auditOpinion") String auditOpinion);*/
+	// 提交更改状态 参数列表： 卡片编号，审核提交状态，审核意见
+	@Update("UPDATE t_deal set deal_status=#{dealStatus},audit_opinion=#{auditOpinion}  WHERE deal_number in (${dealNumber})")
+	int updatebyDid(@Param("dealNumber") String dealNumber, @Param("dealStatus") int dealStatus,
+			@Param("auditOpinion") String auditOpinion);
+
+	// 新增
+	@Insert("INSERT INTO t_deal (#{deal})")
+	@Lang(SimpleInsertLangDriver.class)
+	int add(Deal Deal);
+
+	// 编辑
+	@Update("UPDATE t_deal (#{Deal}) WHERE deal_number=#{dealNumber}")
+	@Lang(SimpleUpdateLangDriver.class)
+	int update(Deal Deal);
+
+	// 删除
+	@Delete("delete from t_deal where deal_number=#{dealNumber}")
+	int deleteById(String dealNumber);
+
+	// 编辑时查找的单条数据
+	@Select("select * from t_deal where deal_number=#{dealNumber}")
+	Deal findById(String dealNumber);
+
+	// 首页面查找用户组下的全部数据 参数列表 用户组id，用户id，处置方式，提交审核状态
+	@Select("select * from t_deal where 1=1 ${column}")
+	@Lang(SimpleSelectLangDriver.class)
+	List<Deal> findByBT(@Param("column") String column);
+}

@@ -1,0 +1,546 @@
+<!doctype html>
+<html>
+<head>
+    <title>预算项目(单位领导)审批</title>
+    <script src="../scripts/thirdparty/swfupload/swfupload.js" type="text/javascript"></script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="../scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <link href="../scripts/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="../scripts/miniui/themes/default/large-mode.css" rel="stylesheet"
+          type="text/css" />
+    <link href="../scripts/miniui/themes/bootstrap/skin.css" rel="stylesheet" type="text/css" />
+    <link href="../css/report.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../scripts/miniui/miniui.js"></script>
+      <script src="../scripts/boot.js" type="text/javascript"></script>
+    <style>
+     .aa .mini-buttonedit-border
+    {
+        border:0;
+        }
+     .aa.mini-buttonedit
+     {
+         margin-left:-90px;
+         }
+    
+    </style>
+</head>
+<body>
+
+
+
+<div class="reim-main clearfix">
+    <div class="report-tabs">
+        <div class="mini-tabs" activeIndex="0"  style="width:100%;height:520px;">
+            <div title="土地">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo1" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           url="" value="" allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo2" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           url="" value=""  allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search()">查询</a>
+                                    <a class="mini-button btn2" onclick="Derivation()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid1" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'
+                        >
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="brand" name="brand" width="100" headerAlign="center" >品牌</div>
+                        <div field="specificationModel" name="specificationModel" width="100" headerAlign="center" >规格型号</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                    </div>
+                </div>
+            </div>
+            <div title="房屋">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo6" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           allowInput="true" showNullItem="true"/> 至
+                                    <input id="combo7" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           allowInput="true" showNullItem="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search2()">查询</a>
+                                    <a class="mini-button btn2" onclick="ExportTwo()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid2" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'
+                        >
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="totalFloorage" name="totalFloorage" width="100" headerAlign="center" >总建筑面积</div>
+                        <div field="position" name="position" width="100" headerAlign="center" >坐落位置</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                    </div>
+                </div>
+            </div>
+            <div title="构筑物">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo10" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true"/> 至
+                                    <input id="combo11" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search3()">查询</a>
+                                    <a class="mini-button btn2" onclick="ExportThree()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid3" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产代码 </div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="totalFloorage" name="totalFloorage" width="100" headerAlign="center" >总建筑面积</div>
+                        <div field="position" name="position" width="100" headerAlign="center" >坐落位置</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                    </div>
+                </div>
+            </div>
+            <div title="通用设备">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo8" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo9" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+                                    
+                                    <em class="search-tit">资产分类：</em>
+                                    <input id="combo5" class="mini-combobox" style="width:150px;" textField="text" valueField="id" emptyText="请选择..."
+                                            allowInput="true" showNullItem="true" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search4()">查询</a>
+                                    <a class="mini-button btn2" onclick="ExportFour()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid4" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="brand" name="brand" width="100" headerAlign="center" >品牌</div>
+                        <div field="specificationModel" name="specificationModel" width="100" headerAlign="center" >规格型号</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                    </div>
+                </div>
+            </div>
+            <div title="车辆">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo13" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo14" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search5()">查询</a>
+                                    <a class="mini-button btn2" onclick="ExportFive()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid5" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="brand" name="brand" width="100" headerAlign="center" >品牌</div>
+                        <div field="specificationModel" name="specificationModel" width="100" headerAlign="center" >规格型号</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                    </div>
+                </div>
+            </div>
+            <div title="专用设备">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo16" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo17" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+                                   
+                                    <em class="search-tit">资产分类：</em>
+                                    <input id="combo55" class="mini-combobox" style="width:150px;" textField="text" valueField="id" emptyText="请选择..."
+                                            allowInput="true" showNullItem="true" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search6()">查询</a>
+                                    <a class="mini-button btn2" onclick="ExportSix()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid6" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="brand" name="brand" width="100" headerAlign="center" >品牌</div>
+                        <div field="specificationModel" name="specificationModel" width="100" headerAlign="center" >规格型号</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                    </div>
+                </div>
+            </div>
+            <div title="文物和陈列品">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo18" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo19" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+                                    <em class="search-tit">资产分类：</em>
+                                    <input id="combo555" class="mini-combobox" style="width:150px;" textField="text" valueField="id" emptyText="请选择..."
+                                            allowInput="true" showNullItem="true" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search7()">查询</a>
+                                    <a class="mini-button btn2" onclick="ExportSeven()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid7" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                        <div field="startTime" name="startTime" width="100" headerAlign="center" >开始使用日期</div>
+                        <div field="expectedMonth" name="expectedMonth" width="100" headerAlign="center" >预计使用月份</div>
+                    </div>
+                </div>
+            </div>
+            <div title="图书、档案">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo20" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           url="" value=""   allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo21" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                           url="" value=""   allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search8()">查询</a>
+                                    <a class="mini-button btn2" onclick="ExportIt()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid8" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                        <div field="startTime" name="startTime" width="100" headerAlign="center" >开始使用日期</div>
+                        <div field="expectedMonth" name="expectedMonth" width="100" headerAlign="center" >预计使用月份</div>
+                    </div>
+                </div>
+            </div>
+            <div title="家具、用具、装具">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo22" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo23" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                            allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+                                    
+                                    <em class="search-tit">资产分类：</em>
+                                    <input id="combo51" class="mini-combobox" style="width:150px;" textField="text" valueField="id" emptyText="请选择..."
+                                            allowInput="true" showNullItem="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search9()">查询</a>
+                                    <a class="mini-button btn2" onclick="exportEx()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid9" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="brand" name="brand" width="100" headerAlign="center" >品牌</div>
+                        <div field="specificationModel" name="specificationModel" width="100" headerAlign="center" >规格型号</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                    </div>
+                </div>
+            </div>
+            <div title="特种动植物">
+                <div class="excision-check">
+                    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+                        <table style="width:100%;">
+
+                            <tr>
+                                <td class="search-inform" style="white-space:nowrap;">
+                                    <em class="search-tit">增加时间：</em>
+                                    <input id="combo24" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                             allowInput="true" showNullItem="true" nullItemText="年/月/日"/> 至
+                                    <input id="combo25" class="mini-datepicker" style="width:150px;" textField="text" valueField="id" emptyText="年/月/日"
+                                             allowInput="true" showNullItem="true" nullItemText="年/月/日"/>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100%;">
+                                    <a class="mini-button btn1" onclick="search10()">查询</a>
+                                    <a class="mini-button btn2" onclick="excelExport()">导出</a>
+                                    <a class="mini-button btn3" onclick="">打印</a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="datagrid10" class="mini-datagrid report-table" style="height:300px;" allowResize="false"
+                     url="${basePath}findAssetByTZ"  idField="id" multiSelect="true"  showPager='false'>
+                    <div property="columns">
+                        <div type="checkcolumn" ></div>
+                        <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+                        <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+                        <div field="assetFirst" name="assetFirst" width="120" headerAlign="center" >资产大类</div>
+                        <div field="className" name="className" width="100" headerAlign="center" >资产分类</div>
+                        <div field="assetName" name="assetName" width="100" headerAlign="center" >资产名称</div>
+                        <div field="numb" name="numb" width="80" headerAlign="center" >数量</div>
+                        <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+                        <div field="additionMethod" name="additionMethod" width="80" headerAlign="center" >增加方式</div>
+                        <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+                        <div field="userName" name="userName" width="100" headerAlign="center" >使用人名称</div>
+                        <div field="startTime" name="startTime" width="100" headerAlign="center" >开始使用日期</div>
+                        <div field="expectedMonth" name="expectedMonth" width="100" headerAlign="center" >预计使用月份</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<iframe id="exportIFrame" style="display:none;"></iframe>
+<!--导出Excel相关HTML-->
+<form id="excelForm"  action="../assetExport" method="post" target="excelIFrame">
+      <input type="hidden" name="cids" id="excelData" />
+</form>
+<iframe id="excelIFrame" name="excelIFrame" style="display:none;"></iframe>
+
+ 
+<script>
+    mini.parse();
+    var grid = mini.get("datagrid10");
+    grid.load();
+    function ExportExcel() {        
+        var row = grid.getSelecteds();
+        var ids=[];
+        if(typeof(row)=="undefined"){
+        	alert("请选择一条数据")
+        }else{
+        for (var i = 0, l = row.length; i < l; i++) {
+        var r = row[i];
+        ids.push(r.cardNumber);
+        }
+        var returnValue = JSON.stringify(ids);
+        
+        var json = mini.encode(returnValue);                        
+        document.getElementById("excelData").value = json;
+        var excelForm = document.getElementById("excelForm");
+        excelForm.submit();            
+    }
+
+   
+</script>
+
+
+</body>
+
+</html>
+ 

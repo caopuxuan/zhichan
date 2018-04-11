@@ -1,0 +1,102 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>员工面板</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="../../../scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <link href="../../../scripts/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../../../scripts/miniui/themes/default/large-mode.css" rel="stylesheet"
+          type="text/css" />
+    <link href="../../../scripts/miniui/themes/bootstrap/skin.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../scripts/miniui/miniui.js"></script>
+    <script type="text/javascript" src="ajaxfileupload.js"></script>
+    <script src="swfupload.js"></script>
+    <style type="text/css">
+    html, body
+    {
+        font-size:12px;
+        padding:0;
+        margin:0;
+        border:0;
+        height:100%;
+        overflow:hidden;
+    }
+        .Enclosure{
+               width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" method="post">
+        <input name="id" class="mini-hidden" />
+        <div style="padding-left:11px;padding-bottom:5px;">
+            <table style="table-layout:fixed;">
+                <tr>
+                    <td style="text-align: center">
+                        <input type="button" value="导入" onclick="ajaxFileUpload()"/>
+                    </td>
+                    <td style="text-align: center">
+                        <input class="mini-htmlfile" name="Fdata"  id="file1" style="width:150px;"/>
+                    </td>
+                 </tr>
+            </table>
+        </div>
+    </form>
+    <script type="text/javascript">
+        mini.parse();
+        var form = new mini.Form("form1");
+        function ajaxFileUpload() {
+            var name=form.getData();
+            if(name.Fdata==""){
+                mini.confirm("请选择文件", "确定？",
+                        function (action) {
+                            if (action == "ok") {
+
+                            }
+                        }
+                );
+            }else{
+                var inputFile = $("#file1 > input:file")[0];
+                $.ajaxFileUpload({
+                    url: '../../../assetImport',
+                    fileElementId: inputFile,
+                    type:"post",
+                    dataType:"text",
+                    success: function (data, status)
+                    {
+                        //content=data;
+                        mini.confirm("成功导入："+data+"条记录", "确定？",
+                                function (action) {
+                                    if (action == "ok") {
+
+                                    }
+                                }
+                        );
+                        CloseWindow("save");
+                    },
+                    error: function ()
+                    {
+                        mini.confirm("导入失败？", "确定？",
+                                function (action) {
+                                    if (action == "ok") {
+
+                                    }
+                                }
+                        );
+                    }
+                });
+            }
+        }
+        function CloseWindow(action) {
+            if (action == "close" && form.isChanged()) {
+                if (confirm("数据被修改了，是否先保存？")) {
+                    return false;
+                }
+            }
+            if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+            else window.close();
+        }
+    </script>
+</body>
+</html>

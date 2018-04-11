@@ -1,0 +1,77 @@
+<!DOCTYPE html />
+<html>
+<head>
+    <title>项目名称-树表1</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link href="../scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+	<link href="../scripts/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+	<link href="../css/reset.css" rel="stylesheet" type="text/css" />
+	<!--<link href="scripts/miniui/themes/blue/skin.css" rel="stylesheet" type="text/css" />-->
+    <!--<link href="../css/report.css" rel="stylesheet" type="text/css" />-->  
+    <script type="text/javascript" src="../scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="../scripts/miniui/miniui.js"></script>
+	<!--<script type="text/javascript" src="../js/billscheck.js"></script>-->
+</head>
+	<body>
+
+		<div class="reim-main clearfix">
+			<div id="treegrid1" class="mini-treegrid" style="height:330px;"     
+    url="../json/tasks.txt" showTreeIcon="true" 
+    treeColumn="taskname" idField="UID" parentField="ParentTaskUID" resultAsTree="false"  
+    allowResize="false" expandOnLoad="true" 
+>
+			    <div property="columns">
+			        <div type="indexcolumn"></div>
+			        <div name="taskname" field="Name" width="160" >项目名称</div>
+			        <div field="PercentComplete" width="80">进度</div>
+			        <div field="Duration" width="60" align="right">工期</div>
+			        <div field="Start" width="80" dateFormat="yyyy-MM-dd">开始日期</div>
+			        <div field="Finish" width="80" dateFormat="yyyy-MM-dd">完成日期</div>                   
+			    </div>
+			</div>
+			
+			<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" 
+		        borderStyle="border-left:0;border-bottom:0;border-right:0;">
+		        <a class="mini-button" style="width:60px;" onclick="onOk()">确定</a>
+		        <span style="display:inline-block;width:25px;"></span>
+		        <a class="mini-button" style="width:60px;" onclick="onCancel()">取消</a>
+		    </div>
+
+		</div>
+
+
+	    <script type="text/javascript">
+	        mini.parse();
+	        var tree = mini.get("treegrid1");
+	        
+	        function GetData() {
+		        var node = tree.getSelectedNode();
+		        return node;
+		    }
+	        function onNodeDblClick(e) {
+		        onOk();
+		    }
+	        //////////////////////////////////
+		    function CloseWindow(action) {
+		        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+		        else window.close();
+		    }
+		
+		    function onOk() {
+		        var node = tree.getSelectedNode();
+		        if (node && tree.isLeaf(node) == false) {
+		            alert("不能选中父节点");
+		            return;
+		        }
+		
+		        CloseWindow("ok");        
+		    }
+		    function onCancel() {
+		        CloseWindow("cancel");
+		    }
+	    </script>	
+    
+
+	
+	</body>
+</html>

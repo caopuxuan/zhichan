@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>资产卡片维护</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="../scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <link href="../scripts/miniui/themes/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="../css/index.css" rel="stylesheet" type="text/css" />
+    <link href="../css/report.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../scripts/miniui/miniui.js"></script>
+    <script type="text/javascript" src="../js/assets.js"></script>
+    <script src="../scripts/thirdparty/swfupload/swfupload.js"></script>
+</head>
+<body>
+<div class="reim-main clearfix">
+    <div class="excision-check">
+        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+            <table style="width:100%;">
+                <tr>
+                    <td class="search-inform" style="white-space:nowrap;">
+                        <em class="search-tit">资产名称：</em>
+                        <input id="combo1" class="mini-textbox" style="width:150px;" emptyText="请输入..." allowInput="true" />
+                        <em class="search-tit">使用部门：</em>
+                        <input id="combo2" class="mini-combobox" style="width:150px;" textField="valued" valueField="types" emptyText="请选择..."
+                                allowInput="true" onbuttonclick="combobox('sybm','combo2')" popupHeight="100px"/>
+                        <em class="search-tit">使用状态：</em>
+                        <input id="combo3" class="mini-combobox" style="width:150px;" textField="valued" valueField="types" emptyText="请选择..."
+                                allowInput="true" onbuttonclick="combobox('syzt','combo3')" popupHeight="100px"/>
+                        <input id="cbox1" name="audit_state" class="mini-checkbox" value="1" text="待提交"/>
+                        <input id="cbox2" name="audit_state" class="mini-checkbox" value="" text="审核中"/>
+                        <input id="cbox3" name="audit_state" class="mini-checkbox" value="" text="审核完成"/>
+                        <input id="cbox4" name="audit_state" class="mini-checkbox" value="1" text="已退回"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:100%;">
+                        <a class="mini-button btn1" onclick="search()">查询</a>
+                        <a class="mini-button btn2" onclick="" target="_blank" href="Asset-New-assets.html">新增</a>
+                        <a class="mini-button btn5" onclick="submitData()">提交</a>
+                        <a class="mini-button btn3" onclick="edit()">编辑</a>
+                        <a class="mini-button btn4" onclick="remove()">删除</a>
+                        <a class="mini-button btn1" onclick="">导入</a>
+                        <a class="mini-button btn5" onclick="auditRecord()">审核记录</a>
+                        <a class="mini-button btn5" onclick="">审核状态</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="datagrid1" class="mini-datagrid report-table" style="width:100%;height:480px;" allowResize="false"
+         url="../findAssetByBT"  idField="id" multiSelect="false" showPager="false" >
+        <div property="columns">
+            <div field="cardNumber" name="cardNumber" width="120" headerAlign="center" >卡片编号</div>
+            <div field="assetCode" name="assetCode" width="120" headerAlign="center" >资产编号</div>
+            <div field="assetName" name="assetName" width="120" headerAlign="center" >资产名称</div>
+            <div field="numb" name="numb" width="100" headerAlign="center" >数量</div>
+            <div field="originalValue" name="originalValue" width="80" headerAlign="center" >原值</div>
+            <div field="valueType" name="valueType" width="100" headerAlign="center">价值类型</div>
+            <div field="className" name="className" width="100" headerAlign="center">资产分类</div>
+            <div field="assetFirst" width="100" headerAlign="center">资产大类</div>
+            <div field="" width="100" headerAlign="center">取得日期</div>
+            <div field="useDepartment" name="useDepartment" width="100" headerAlign="center" >使用部门</div>
+            <div field="usingState" name="usingState" width="100" headerAlign="center">使用状态</div>
+            <div field="auditState" name="auditState" width="100" headerAlign="center">状态</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    mini.parse();
+    //下拉框ajax请求
+    function combobox(value,id){
+		var combox = mini.get(id);
+		$.ajax({
+			    type:'post',
+			    url: "../findByCode",
+	            data: {"code" : value},
+	            type:'post',
+	            success: function (jsonData) {
+	            	combox.load(jsonData);
+	            },
+	            error: function () {
+                	alert("请求失败");
+                }
+	        })
+	};
+    
+    //查询-All
+     var grid4 = mini.get("datagrid1");
+	 grid4.load({"audit_state":"1,6"});
+	 grid4.on("drawcell", function (e) {
+                var record = e.record,
+                column = e.column,
+                field = e.field,
+                value = e.value;
+                
+        //将使用状态替换文本--使用状态
+        if (column.field == "usingState") {
+            if (e.value == 1) {
+                e.cellHtml = "在用"
+            }
+            if (e.value == 2) {
+                e.cellHtml = "闲置"
+            }
+            if (e.value == 3) {
+                e.cellHtml = "其他"
+            }
+            if (e.value == 4) {
+                e.cellHtml = "损毁待报废"
+            }
+        }
+        //将使用状态替换文本--状态
+        if (column.field == "auditState") {
+            if (e.value == 1) {
+                e.cellHtml = "待提交"
+            }
+            if (e.value == 2) {
+                e.cellHtml = "待审核"
+            }
+            if (e.value == 3) {
+                e.cellHtml = "已审核"
+            }
+            if (e.value == 4) {
+                e.cellHtml = "待处置"
+            }
+            if (e.value == 5) {
+                e.cellHtml = "以处置"
+            }
+            if (e.value == 6) {
+                e.cellHtml = "已退回"
+            }
+        }
+        //将使用状态替换文本--价值类型
+        if (column.field == "valueType") {
+            if (e.value == 1) {
+                e.cellHtml = "原值"
+            }
+            if (e.value == 2) {
+                e.cellHtml = "暂估值"
+            }
+            if (e.value == 3) {
+                e.cellHtml = "重置值"
+            }
+            if (e.value == 4) {
+                e.cellHtml = "无价值"
+            }
+            if (e.value == 5) {
+                e.cellHtml = "评估值"
+            }
+        }
+        //将资产大类替换文本--资产大类
+        if (column.field == "assetFirst") {
+            if (e.value == 1) {
+                e.cellHtml = "土地、房屋及构筑物"
+            }
+            if (e.value == 2) {
+                e.cellHtml = "土地、房屋及构筑物"
+            }
+            if (e.value == 3) {
+                e.cellHtml = "土地、房屋及构筑物"
+            }
+            if (e.value == 4) {
+                e.cellHtml = "通用设备"
+            }
+            if (e.value == 5) {
+                e.cellHtml = "通用设备"
+            }
+            if (e.value == 6) {
+                e.cellHtml = "专用设备"
+            }
+            if (e.value == 7) {
+                e.cellHtml = "文物、成列品"
+            }
+            if (e.value == 8) {
+                e.cellHtml = "图书、档案"
+            }
+            if (e.value == 9) {
+                e.cellHtml = "家具、用具、装具及动植物"
+            }
+            if (e.value == 10) {
+                e.cellHtml = "家具、用具、装具及动植物"
+            }
+        }
+    });
+
+	 /*查询-条件*/
+    function search() {
+        var key1 = mini.get("combo1").getValue();
+        var key2 = mini.get("combo2").getValue();
+        var key3 = mini.get("combo3").getValue();
+        var key4="";
+        if(mini.get("cbox1").checked){
+        	key4=key4+"1";
+        }
+        if(mini.get("cbox2").checked){
+        	if(mini.get("cbox1").checked){
+        		key4=key4+",2";
+        	}else{key4=key4+"2";}
+        }
+        if(mini.get("cbox3").checked){
+        	if(mini.get("cbox1").checked||mini.get("cbox2").checked){
+        		key4=key4+",3";
+        	}else{key4=key4+"3";}
+        }
+        if(mini.get("cbox4").checked){
+        	if(mini.get("cbox1").checked||mini.get("cbox2").checked||mini.get("cbox3").checked){
+        		key4=key4+",6";
+        	}else{key4=key4+"6";}
+        }
+        grid4.load({"asset_name":key1,"use_department":key2,"using_state":key3,"audit_state":key4});
+    }
+    /*提交*/
+	function submitData() { 
+		var value = grid4.getSelected();
+        console.log(value);
+        if(typeof(value)!="undefined"){
+        	if (confirm("确定提交选中记录？")) {
+                    if(value.auditState!=3){
+                        $.ajax({
+                            type:'post',
+                            url: "../updatebyCid",
+                            data: {"cardNumber":value.cardNumber},
+                            success: function (text) {
+                                if(text==1){
+                                    alert("提交成功");
+                                    window.location.reload();
+                                }else{
+                                    alert("异常");
+                                }
+                            },
+                            error: function () {
+                                alert("请求失败");
+                            }
+                        });
+                    }else{
+                           alert("审核数据不能提交");
+                    }
+            }
+        	
+        }else{
+            alert("请选中一条记录");
+        }
+    }
+	/*删除*/    
+    function remove() {
+    	var value = grid4.getSelected();
+        if(typeof(value)!="undefined"){
+        	if (confirm("确定删除选中记录？")) {
+        		var id = value.cardNumber;
+        		grid4.loading("操作中，请稍后......");
+                $.ajax({
+                	type:'post',
+                    url: "../deleteAsset?cardNumber=" +id,
+                    success: function (text) {
+                    	if(text==1){
+                    		alert("提交成功");
+                    	}else{
+                    		alert("异常");
+                    	}
+                        grid4.reload();
+                    },
+                    error: function () {
+                    	alert("请求失败");
+                    }
+                });	
+        	}
+        }else{
+    		alert("请选中一条记录");
+    	}
+	}
+	/*编辑*/
+	function edit() {  
+		var value=grid4.getSelected();
+        if (typeof(value)!="undefined") {
+            if (confirm("确定编辑选中记录？")) {
+                //编辑跳转页面--按资产大类
+                var id    = value.cardNumber;
+                var first = value.assetFirst;
+		            if (first == 1) {
+		                window.open("maintenance/tu-land.html?cardNumber="+id); 
+		            }
+		            if (first == 2) {
+		                window.open("maintenance/House.html?cardNumber="+id);
+		            }
+		            if (first == 3) {
+		                window.open("maintenance/gou-Structure.html?cardNumber="+id);
+		            }
+		            if (first == 4) {
+		                window.open("maintenance/tong-equipment.html?cardNumber="+id);
+		            }
+		            if (first == 5) {
+		                window.open("maintenance/che-vehicle.html?cardNumber="+id);
+		            }
+		            if (first == 6) {
+		                window.open("maintenance/zhuan-special.html?cardNumber="+id);
+		            }
+		            if (first == 7) {
+		                window.open("maintenance/wen-Cultural.html?cardNumber="+id);
+		            }
+		            if (first == 8) {
+		                window.open("maintenance/tu-books.html?cardNumber="+id);
+		            }
+		            if (first == 9) {
+		                window.open("maintenance/jia-appliance.html?cardNumber="+id);
+		            }
+		            if (first == 10) {
+		                window.open("maintenance/dong-Flora.html?cardNumber="+id);
+		            }
+		   }
+        }else {
+            alert("请选中一条记录");
+        } 
+   }
+    /*审核记录*/
+    function auditRecord(){
+        var data = grid4.getSelected();
+        if(typeof(data)!="undefined"){
+            $.ajax({
+                url:"http://192.168.8.105:8080/jbpm/findAuditLogsByParam",
+                type:"post",
+                data:{"source":"zc","businessId":data.cardNumber},
+                success:function(objectVO){
+                        mini.open({
+                            url: "./file/AuditEjection.html",
+                            title: "审核记录", width: 1200, height: 500,
+                            onload: function () {
+                                var iframe = this.getIFrameEl();
+                                iframe.contentWindow.SetData(objectVO);
+                            },
+                            ondestroy: function (action) {
+                                grid4.reload();
+                            }
+                        });
+                },
+                error:function(){
+                    alert("数据请求失败")
+                }
+            })
+        }else{
+            alert("请选中一条记录")
+        }
+    }
+
+</script>
+
+</body>
+</html>

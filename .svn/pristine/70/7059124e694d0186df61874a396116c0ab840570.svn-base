@@ -1,0 +1,130 @@
+package com.bpm.asset.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bpm.asset.entity.Deal;
+import com.bpm.asset.vo.DealVo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@Api(value = "资产")
+public class DealController {
+
+	// private Logger logger = LogManager.getLogger(this.getClass());
+	
+	@Resource
+	private com.bpm.asset.service.DealService DealService;
+	
+	@ApiOperation(value = "新增处置单", notes = "新增处置单")
+	@PostMapping(value = "/addDeal")
+	@ApiImplicitParam(name = "DealVo", value = "资产整体实体", dataType = "DealVo")
+	public int addDeal(@RequestBody DealVo DealVo) {
+		return DealService.addDeal(DealVo);
+	}
+
+	@ApiOperation(value = "处置编辑查询", notes = "处置编辑查询")
+	@PostMapping(value = "/findDealById")
+	@ApiImplicitParam(name = "dealNumber", value = "处置编号", required = true, dataType = "String", paramType = "query")
+	public DealVo findDealById(@RequestParam String dealNumber) {
+		return DealService.findDealById(dealNumber);
+	}
+
+	@ApiOperation(value = "编辑处置单", notes = "编辑处置单")
+	@PostMapping(value = "/updateDeal")
+	@ApiImplicitParam(name = "DealVo", value = "资产整体实体", dataType = "DealVo")
+	public int updateDeal(@RequestBody DealVo DealVo) {
+		return DealService.updateDeal(DealVo);
+	}
+
+	@ApiOperation(value = "删除", notes = "删除")
+	@PostMapping(value = "/deleteDeal")
+	@ApiImplicitParam(name = "dealNumber", value = "卡片编号", required = true, dataType = "String", paramType = "query")
+	public int deleteDeal(@RequestParam String dealNumber) {
+		return DealService.deleteDeal(dealNumber);
+	}
+
+	@ApiOperation(value = "处置申请查询", notes = "处置申请查询")
+	@PostMapping(value = "/findDealByBT")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "group_id", value = "用户组id", required = false, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "user_id", value = "用户id", required = false, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "deal_number", value = "申请单号", required = false, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "application_unit", value = "申请单位", required = false, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "deal_mode", value = "处置方式", required = false, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "deal_status", value = "提交审核状态", required = false, dataType = "String", paramType = "form")})
+	public List<Deal> findByBT(
+			@RequestParam(required = false) String group_id,
+			@RequestParam(required = false) String user_id, 
+			@RequestParam(required = false) String deal_number,
+			@RequestParam(required = false) String application_unit,
+			@RequestParam(required = false) String deal_mode,
+			@RequestParam(required = false) String deal_status) {
+		
+		System.out.print("deal_number="+deal_number+"application_unit="+application_unit+"deal_mode="+deal_mode+"deal_status="+deal_status);
+		
+		String sql="";
+		
+		if(group_id!=null){
+			if(!group_id.equals("")){
+			sql=sql+"and group_id='"+group_id+"'";
+			}
+		}
+		if(user_id!=null){
+			if(!user_id.equals("")){
+			sql=sql+"and user_id='"+user_id+"'";
+			}
+		}
+		
+		if(deal_number!=null){
+			if(!deal_number.equals("")){
+			sql=sql+"and deal_number='"+deal_number+"'";
+			}
+		}
+		if(application_unit!=null){
+			if(!application_unit.equals("")){
+			sql=sql+"and application_unit='"+application_unit+"'";
+			}
+		}
+		if(deal_mode!=null){
+			if(!deal_mode.equals("")){
+			sql=sql+"and deal_mode='"+deal_mode+"'";
+			}
+		}
+
+		if(deal_status!=null){
+			if(!deal_status.equals("")){
+			sql=sql+"and deal_status in ("+deal_status+")";
+			}
+		}
+
+		System.out.println(sql);
+		return DealService.findByBT(sql);
+
+	}
+
+	@ApiOperation(value = "提交审核", notes = "提交审核")
+	@PostMapping(value = "/updatebyDid")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "dealNumber", value = "处置编号", required = true, dataType = "String", paramType = "query"),
+			@ApiImplicitParam(name = "dealStatus", value = "审核状态", required = false, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "auditOpinion", value = "审核意见", required = false, dataType = "String", paramType = "form") })
+	public int updatebyCid(@RequestParam String dealNumber, @RequestParam int dealStatus,
+			@RequestParam String auditOpinion) {
+		
+		return DealService.updatebyDid(dealNumber, dealStatus, auditOpinion);
+	}
+
+}

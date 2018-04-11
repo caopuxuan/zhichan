@@ -1,0 +1,83 @@
+########################jsp视图或jsp页面所在位置#########################
+spring.mvc.view.prefix=/WEB-INF/view/
+spring.mvc.view.suffix=.jsp
+
+#####################访问端口###########################################
+server.port=80
+
+#########################Profile配置[开发阶段与产品阶段]##################
+#spring.profiles.active=dev
+spring.profiles.active=prod
+
+############################# HikariDataSource数据源访问配置#####################
+# 主数据源
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
+#spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+#spring.datasource.url=jdbc:mysql://59.151.8.55:3306/mysql01?characterEncoding=utf8&useSSL=false
+#spring.datasource.username=demo
+#spring.datasource.password=demo
+
+#spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+#spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+#spring.datasource.url=jdbc:oracle:thin:@59.151.8.40:1521:atools
+#spring.datasource.username=bpm2_xc
+#spring.datasource.password=bpm2_xc
+
+########################查看druid系统的用户名密码配置#####################
+spring.datasource.loginUsername=admin
+spring.datasource.loginPassword=1
+
+###########################druid数据源初始化参数##########################
+spring.datasource.initialSize=5
+spring.datasource.minIdle=5
+spring.datasource.maxActive=100
+spring.datasource.maxWait=60000
+spring.datasource.timeBetweenEvictionRunsMillis=60000
+spring.datasource.minEvictableIdleTimeMillis=300000
+spring.datasource.validationQuery=SELECT 1 FROM DUAL
+spring.datasource.testWhileIdle=true
+spring.datasource.testOnBorrow=true
+spring.datasource.testOnReturn=true
+spring.datasource.poolPreparedStatements=true
+spring.datasource.maxPoolPreparedStatementPerConnectionSize=20
+spring.datasource.filters=stat,wall,slf4j
+spring.datasource.connectionProperties=druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+spring.datasource.useGlobalDataSourceStat=true
+
+
+##########################上传文件大小限制######################################
+spring.http.multipart.maxFileSize=100Mb
+spring.http.multipart.maxRequestSize=1000Mb
+
+#########################################################
+mybatis.config-location=classpath:mybatis-config.xml
+
+#####################数据迁移#############################
+flyway.baselineOnMigrate=true
+
+
+#####################session#############################
+spring.session.store-type=redis
+spring.redis.host=59.151.8.41
+spring.redis.port= 6379
+# REDIS (RedisProperties)
+# Redis数据库索引（默认为0）
+spring.redis.database= 0
+# Redis服务器连接密码（默认为空）
+spring.redis.password=atools2017
+# 连接池最大连接数（使用负值表示没有限制）
+# 连接超时时间（毫秒）
+spring.redis.timeout=0
+
+spring.redis.pool.max-active= 8
+# 连接池最大阻塞等待时间（使用负值表示没有限制）
+spring.redis.pool.max-wait= -1
+# 连接池中的最大空闲连接
+spring.redis.pool.max-idle= 8
+# 连接池中的最小空闲连接
+spring.redis.pool.min-idle= 0
+
+flowUrlpath=http://192.168.8.105:8080/
+
+
+

@@ -1,0 +1,17 @@
+######################################Mysql数据源###################################################
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://59.151.8.55:3306/asset?characterEncoding=utf8&useSSL=false
+spring.datasource.username=root
+spring.datasource.password=atools2017
+###############################文件上传目录 ################################################
+spring.fileUpload.address=/opt/asset/upload/
+#spring.fileUpload.address=C:/work/
+#################日志配置###########################################################################
+logging.config=classpath:log4j2-test.xml
+#logging.config=classpath:log4j2.xml
+##############################服务器测试LOG4J2日志配置###########################
+spring.log4j2.url=jdbc:mysql://59.151.8.55:3306/javalog
+spring.log4j2.username=javalog
+spring.log4j2.password=atools2017
+##############################调用bmp3接口的服务器路径###########################
+flowUrlpath=http://192.168.8.105:8080/

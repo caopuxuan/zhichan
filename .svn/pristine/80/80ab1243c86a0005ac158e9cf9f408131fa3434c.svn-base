@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../../../css/index.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../../scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="swfupload.js"></script>
+</head>
+<body>
+
+    <script>
+        function SetData(processInstanceId){
+            var url='http://192.168.8.107:8080/jbpm/findProcessProgress1?processInstanceId';
+            if(!$("#showProcessProgress")[0]){
+                $("body").append("<div id='showProcessProgress' style='overflow-y:auto;z-index:200;background:#FFF;-webkit-border-radius: 10px;-moz-border-radius: 10px;'></em>"+
+                        "<img id='base64Image' src='"+url+"=" + processInstanceId+ "' style='width:92%'>" +
+                        "" +
+                        "</div>");
+                $(".window-mask").fadeIn();
+                $("#showProcessProgress .close_btn").click(function(){
+                    $("#showProcessProgress").css({visibility:"hidden"});
+                    $(".window-mask").fadeOut();
+                    //$("#showProcessProgress").empty();
+                });
+                //CommonData.divCenter("showProcessProgress");
+            }else{
+                $("#showProcessProgress").append("<img id='base64Image' src='"+url+"=" + processInstanceId+ "&"+Math.random()+"' style='position:absolute; left:0px; top:0px;height:100%;width:100%;'>");
+                $("#showProcessProgress").css({visibility:"visible"});
+            }
+        }
+    </script>
+</body>
+</html>
